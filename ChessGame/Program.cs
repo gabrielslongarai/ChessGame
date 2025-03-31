@@ -1,4 +1,8 @@
-﻿using ChessGame.Entities;
+﻿using System.Diagnostics;
+using System.Text;
+using System.Text.Encodings;
+using ChessGame.Entities;
+using ChessGame.Entities.Enums;
 
 namespace ChessGame
 {
@@ -6,9 +10,12 @@ namespace ChessGame
     {
         static void Main(string[] args)
         {
-            Position position = new Position(3, 4);
+            Console.OutputEncoding = Encoding.UTF8;
 
-            Board board = new Board(8, 8);
+            Piece piece = new Piece(new Position(0, 0), Color.Black, new Board(8, 8), "♚");
+            Console.WriteLine(piece);
+
+            UI.ConsoleRenderer.RenderBoard(new Board(8, 8));
         }
     }
 }

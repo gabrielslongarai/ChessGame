@@ -10,17 +10,24 @@ namespace ChessGame.Entities
 {
     internal class Piece
     {
+        public string Icon { get; set; }
         public Position Position { get; set; }
         public Color Color { get; protected set; }
         public int MoveCount { get; protected set; }
         public Board Board { get; protected set; }
 
-        public Piece(Position position, Color color, Board board)
+        public Piece(Position position, Color color, Board board, string icon)
         {
             Position = position;
             Color = color;
             Board = board;
             MoveCount = 0;
+            Icon = icon;
+        }
+
+        public override string ToString()
+        {
+            return $"{Icon}";
         }
 
 

@@ -1,0 +1,25 @@
+﻿Peças Brancas:
+♔ - Rei Branco (U+2654)
+♕ - Rainha Branca (U+2655)
+♖ - Torre Branca (U+2656)
+♗ - Bispo Branco (U+2657)
+♘ - Cavalo Branco (U+2658)
+♙ - Peão Branco (U+2659)
+
+Peças Pretas:
+♚ - Rei Preto (U+265A)
+♛ - Rainha Preta (U+265B)
+♜ - Torre Preta (U+265C)
+♝ - Bispo Preto (U+265D)
+♞ - Cavalo Preto (U+265E)
+♟ - Peão Preto (U+265F)
+
+Símbolos de Tabuleiro e Movimento:
+▫ - Casa Branca (U+25AB)
+▪ - Casa Preta (U+25AA)
+◻ - Casa Branca Maior (U+25FB)
+◼ - Casa Preta Maior (U+25FC)
+⭢ - Movimento para Direita (U+2B62)
+⭠ - Movimento para Esquerda (U+2B60)
+⭡ - Movimento para Cima (U+2B61)
+⭣ - Movimento para Baixo (U+2B63)
