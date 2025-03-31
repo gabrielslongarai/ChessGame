@@ -8,7 +8,7 @@ namespace ChessGame
         {
             Position position = new Position(3, 4);
 
-            Console.WriteLine(position);
+            Board board = new Board(8, 8);
         }
     }
 }

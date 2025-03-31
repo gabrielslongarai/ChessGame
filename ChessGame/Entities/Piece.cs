@@ -15,6 +15,14 @@ namespace ChessGame.Entities
         public int MoveCount { get; protected set; }
         public Board Board { get; protected set; }
 
+        public Piece(Position position, Color color, Board board)
+        {
+            Position = position;
+            Color = color;
+            Board = board;
+            MoveCount = 0;
+        }
+
 
     }
 }
