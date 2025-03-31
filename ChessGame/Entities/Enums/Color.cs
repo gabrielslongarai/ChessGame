@@ -8,7 +8,7 @@ namespace ChessGame.Entities.Enums
 {
     internal enum Color
     {
-        White,
-        Black,
+        Green,
+        Red,
     }
 }

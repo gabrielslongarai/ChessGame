@@ -11,11 +11,13 @@ namespace ChessGame
         static void Main(string[] args)
         {
             Console.OutputEncoding = Encoding.UTF8;
+            
 
-            Piece piece = new Piece(new Position(0, 0), Color.Black, new Board(8, 8), "♚");
-            Console.WriteLine(piece);
+            Board board = new Board(8, 8);
 
-            UI.ConsoleRenderer.RenderBoard(new Board(8, 8));
+            board.Pieces[0, 0] = new Piece(new Position(0, 0), Color.Green, board, "♚");
+
+            UI.ConsoleRenderer.RenderBoard(board);
         }
     }
 }

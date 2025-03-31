@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ChessGame.Entities.Enums;
 
 
 namespace ChessGame.UI
@@ -19,15 +20,30 @@ namespace ChessGame.UI
                 {
                     if (board.Pieces[i, x] == null)
                     {
-                        Console.Write("- ");
+                        Console.Write((i + x) % 2 == 0 ? "░░" : "██");
                     }
                     else
                     {
+                        Console.ForegroundColor = GetConsoleColor(board.Pieces[i, x].Color);
                         Console.Write(board.Pieces[i, x] + " ");
+                        Console.ForegroundColor = ConsoleColor.White;
                     }
                 }
 
                 Console.WriteLine();
+            }
+        }
+
+        private static ConsoleColor GetConsoleColor(Color color)
+        {
+            switch (color)
+            {
+                case Color.Red:
+                    return ConsoleColor.Red;
+                case Color.Green:
+                    return ConsoleColor.Green;
+                default:
+                    return ConsoleColor.White;
             }
         }
     }

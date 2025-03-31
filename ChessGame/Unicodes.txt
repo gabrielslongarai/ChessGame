@@ -23,3 +23,9 @@ Símbolos de Tabuleiro e Movimento:
 ⭠ - Movimento para Esquerda (U+2B60)
 ⭡ - Movimento para Cima (U+2B61)
 ⭣ - Movimento para Baixo (U+2B63)
+
+░░ (U+2591 "LIGHT SHADE") → Tons mais claros.
+
+▒▒ (U+2592 "MEDIUM SHADE") → Tons intermediários.
+
+▓▓ (U+2593 "DARK SHADE") → Tom mais escuro, mas ainda não sólido.
