@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ChessGame.Entities.Enums;
+using ChessGame.Entities.BoardLayer;
 
 
 namespace ChessGame.UI

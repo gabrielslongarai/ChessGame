@@ -6,30 +6,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChessGame.Entities
+namespace ChessGame.Entities.BoardLayer
 {
-    internal class Piece
+    internal class Piece(Color color, Board board)
     {
-        public string Icon { get; set; }
-        public Position Position { get; set; }
-        public Color Color { get; protected set; }
-        public int MoveCount { get; protected set; }
-        public Board Board { get; protected set; }
-
-        public Piece(Position position, Color color, Board board, string icon)
-        {
-            Position = position;
-            Color = color;
-            Board = board;
-            MoveCount = 0;
-            Icon = icon;
-        }
+        public Position? Position { get; set; } = null;
+        public Color Color { get; protected set; } = color;
+        public int MoveCount { get; protected set; } = 0;
+        public Board Board { get; protected set; } = board;
 
         public override string ToString()
         {
-            return $"{Icon}";
+            return "◼";
         }
-
-
     }
 }
