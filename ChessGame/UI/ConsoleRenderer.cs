@@ -38,10 +38,10 @@ namespace ChessGame.UI
         {
             switch (color)
             {
-                case Color.Red:
-                    return ConsoleColor.Red;
                 case Color.Green:
                     return ConsoleColor.Green;
+                case Color.Red:
+                    return ConsoleColor.Red;
                 default:
                     return ConsoleColor.White;
             }

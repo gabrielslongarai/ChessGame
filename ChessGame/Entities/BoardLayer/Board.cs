@@ -18,5 +18,11 @@ namespace ChessGame.Entities
             Columns = columns;
             Pieces = new Piece[lines, columns];
         }
+
+        public void AddPiece(Piece piece, Position position)
+        {
+            Pieces[position.Line, position.Column] = piece;
+            piece.Position = position;
+        }
     }
 }
