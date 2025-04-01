@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace ChessGame.Entities.ChessLayer
 {
-    internal class Rook(Color color, Board board) : Piece(color, board)
+    internal class Knight(Color color, Board board) : Piece(color, board)
     {
         public override string ToString()
         {
-            return "♜";
+            return "♞";
         }
     }
 }
