@@ -17,6 +17,8 @@ namespace ChessGame.UI
         {
             for (int i = 0; i < board.Lines; i++)
             {
+                Console.Write((board.Lines - i) + " ");
+
                 for (int x = 0; x < board.Columns; x++)
                 {
                     if (board.Pieces[i, x] == null)
@@ -33,6 +35,7 @@ namespace ChessGame.UI
 
                 Console.WriteLine();
             }
+            Console.WriteLine("  a b c d e f g h");
         }
 
         private static ConsoleColor GetConsoleColor(Color color)
