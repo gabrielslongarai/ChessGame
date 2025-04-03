@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
 using ChessGame.Entities.BoardLayer;
 using ChessGame.Entities.ChessLayer;
 using ChessGame.Entities.Enums;
@@ -13,7 +14,7 @@ namespace ChessGame
             try
             {
 
-
+                CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
                 Console.OutputEncoding = Encoding.UTF8;
 
                 Board board = new Board(8, 8);
@@ -45,9 +46,10 @@ namespace ChessGame
             }
             finally
             {
-                Console.WriteLine("Press any key to exit...");
-                Console.ReadKey();
+                Console.WriteLine("\nPress any key to exit...");
             }
+
+
         }
     }
 }
