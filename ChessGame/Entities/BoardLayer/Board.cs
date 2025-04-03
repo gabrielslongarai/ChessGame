@@ -22,12 +22,23 @@ namespace ChessGame.Entities.BoardLayer
 
         public void AddPiece(Piece piece, Position position)
         {
+            if(HasPiece(position))
+            {
+                throw new BoardExceptions("There is already a piece in this position!");
+            }
             Pieces[position.Line, position.Column] = piece;
             piece.Position = position;
         }
 
         public Piece GetPiece(Position position)
         {
+            ValidatePosition(position);
+            return Pieces[position.Line, position.Column];
+        }
+
+        public Piece GetPiece(int line, int column)
+        {
+            Position position = new Position(line, column);
             ValidatePosition(position);
             return Pieces[position.Line, position.Column];
         }
