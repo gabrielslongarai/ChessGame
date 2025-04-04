@@ -6,7 +6,6 @@ namespace ChessGame.Application
     {
         public static void RenderBoard(ChessGame.Board.GameBoard board)
         {
-            Console.WriteLine();
             for (int i = 0; i < board.Lines; i++)
             {
                 Console.Write(board.Lines - i + " ");

@@ -34,10 +34,9 @@ namespace ChessGame.Application
                     else
                     {
                         Console.Clear();
-                        Console.WriteLine("\nStarting a new game...");
                         newGame = new ChessMatch();
                     }
-                } while (true);
+                } while (newGame.Finished == false);
             }
             catch (BoardExceptions e)
             {

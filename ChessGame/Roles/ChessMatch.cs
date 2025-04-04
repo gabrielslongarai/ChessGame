@@ -9,14 +9,17 @@ namespace ChessGame.Roles
     internal class ChessMatch
     {
         private GameBoard Board { get; set; }
-        private int Turn { get; set; }
+        private int TurnCount { get; set; }
         private EColor CurrentColor { get; set; }
+        public bool Finished { get; set; }
+
 
         public ChessMatch()
         {
             Board = new GameBoard(8, 8);
-            Turn = 1;
+            TurnCount = 1;
             CurrentColor = EColor.Green;
+            Finished = false;
             StartGame();
         }
 
@@ -86,7 +89,7 @@ namespace ChessGame.Roles
             Board.RemovePiece(origin);
             Board.AddPiece(piece, destination);
             piece.IncreaseMoveCount();
-            Turn++;
+            TurnCount++;
             CurrentColor = (CurrentColor == EColor.Green) ? EColor.Red : EColor.Green;
         }
     }
