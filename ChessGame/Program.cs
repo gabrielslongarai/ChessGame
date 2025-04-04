@@ -4,6 +4,7 @@ using ChessGame.Entities.BoardLayer;
 using ChessGame.Entities.ChessLayer;
 using ChessGame.Entities.Enums;
 using ChessGame.Exceptions;
+using ChessGame.Services;
 
 namespace ChessGame
 {
@@ -13,36 +14,40 @@ namespace ChessGame
         {
             try
             {
-
                 CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
                 Console.OutputEncoding = Encoding.UTF8;
 
-                Board board = new Board(8, 8);
+                ChessMatch newGame = new();
 
-
-                board.AddPiece(new Rook(Color.Red, board), new Position(0, 0));
-                board.AddPiece(new Knight(Color.Red, board), new Position(0, 1));
-                board.AddPiece(new Bishop(Color.Red, board), new Position(0, 2));
-                board.AddPiece(new King(Color.Red, board), new Position(0, 3));
-                board.AddPiece(new Queen(Color.Red, board), new Position(0, 4));
-                board.AddPiece(new Bishop(Color.Red, board), new Position(0, 5));
-                board.AddPiece(new Knight(Color.Red, board), new Position(0, 6));
-                board.AddPiece(new Rook(Color.Red, board), new Position(0, 7));
-
-                for (int i = 0; i < 8; i++)
+                do
                 {
-                    board.AddPiece(new Pawn(Color.Red, board), new Position(1, i));
-                }
-
-                UI.ConsoleRenderer.RenderBoard(board);
+                    Console.WriteLine("\n\nDo you want to play again?");
+                    Console.WriteLine("\nPress 1 for Yes or 2 for No.");
+                    char response = char.Parse(Console.ReadLine()!);
+                    if (response == '2')
+                    {
+                        break;
+                    }
+                    else if (response != '1')
+                    {
+                        Console.WriteLine("\nInvalid option. Please try again.");
+                        continue;
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("\nStarting a new game...");
+                        newGame = new ChessMatch();
+                    }
+                } while (true);
             }
             catch (BoardExceptions e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine($"\n{e.Message}");
             }
             catch (Exception e)
             {
-                Console.WriteLine("An unexpected error occurred: " + e.Message);
+                Console.WriteLine("\nAn unexpected error occurred: " + e.Message);
             }
             finally
             {

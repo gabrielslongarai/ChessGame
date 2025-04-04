@@ -15,6 +15,7 @@ namespace ChessGame.UI
     {
         public static void RenderBoard(Board board)
         {
+            Console.WriteLine();
             for (int i = 0; i < board.Lines; i++)
             {
                 Console.Write((board.Lines - i) + " ");

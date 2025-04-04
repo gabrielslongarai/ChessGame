@@ -15,9 +15,9 @@ namespace ChessGame.Entities.BoardLayer
         public int MoveCount { get; protected set; } = 0;
         public Board Board { get; protected set; } = board;
 
-        public override string ToString()
+        public void IncreaseMoveCount()
         {
-            return "◼";
+            MoveCount++;
         }
     }
 }

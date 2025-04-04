@@ -24,10 +24,20 @@ namespace ChessGame.Entities.BoardLayer
         {
             if(HasPiece(position))
             {
-                throw new BoardExceptions("There is already a piece in this position!");
+                throw new BoardExceptions("\nThere is already a piece in this position!");
             }
             Pieces[position.Line, position.Column] = piece;
             piece.Position = position;
+        }
+
+        public void RemovePiece(Position position)
+        {
+            if (GetPiece(position) == null)
+            {
+                throw new BoardExceptions("\nThere is no piece in this position!");
+            }
+            Pieces[position.Line, position.Column] = null;
+            position = null;
         }
 
         public Piece GetPiece(Position position)
@@ -62,7 +72,7 @@ namespace ChessGame.Entities.BoardLayer
         {
             if (!IsValidPosition(position))
             {
-                throw new BoardExceptions("Invalid position!");
+                throw new BoardExceptions("\nInvalid position!");
             }
         }
     }
