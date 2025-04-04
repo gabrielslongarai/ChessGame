@@ -1,24 +1,15 @@
-﻿using ChessGame.Entities;
-using System;
-using System.Text.Encodings;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ChessGame.Entities.Enums;
-using ChessGame.Entities.BoardLayer;
+﻿using ChessGame.Board.Enums;
 
-
-namespace ChessGame.UI
+namespace ChessGame.Application
 {
-    internal class ConsoleRenderer
+    internal class ConsoleLog
     {
-        public static void RenderBoard(Board board)
+        public static void RenderBoard(ChessGame.Board.GameBoard board)
         {
             Console.WriteLine();
             for (int i = 0; i < board.Lines; i++)
             {
-                Console.Write((board.Lines - i) + " ");
+                Console.Write(board.Lines - i + " ");
 
                 for (int x = 0; x < board.Columns; x++)
                 {
@@ -39,13 +30,13 @@ namespace ChessGame.UI
             Console.WriteLine("  a b c d e f g h");
         }
 
-        private static ConsoleColor GetConsoleColor(Color color)
+        private static ConsoleColor GetConsoleColor(EColor color)
         {
             switch (color)
             {
-                case Color.Green:
+                case EColor.Green:
                     return ConsoleColor.Green;
-                case Color.Red:
+                case EColor.Red:
                     return ConsoleColor.Red;
                 default:
                     return ConsoleColor.White;

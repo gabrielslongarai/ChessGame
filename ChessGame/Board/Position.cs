@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ChessGame.Entities.BoardLayer
+namespace ChessGame.Board
 {
     internal class Position
     {

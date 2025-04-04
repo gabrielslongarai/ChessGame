@@ -1,19 +1,14 @@
 ﻿using ChessGame.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ChessGame.Entities.BoardLayer
+namespace ChessGame.Board
 {
-    internal class Board
+    internal class GameBoard
     {
         public int Lines { get; set; }
         public int Columns { get; set; }
         public Piece[,] Pieces { get; private set; }
 
-        public Board(int lines, int columns)
+        public GameBoard(int lines, int columns)
         {
             Lines = lines;
             Columns = columns;

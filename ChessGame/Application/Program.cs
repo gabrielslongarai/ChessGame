@@ -1,12 +1,10 @@
 ﻿using System.Globalization;
 using System.Text;
-using ChessGame.Entities.BoardLayer;
-using ChessGame.Entities.ChessLayer;
-using ChessGame.Entities.Enums;
+using ChessGame.Roles;
 using ChessGame.Exceptions;
-using ChessGame.Services;
 
-namespace ChessGame
+
+namespace ChessGame.Application
 {
     internal class Program
     {
