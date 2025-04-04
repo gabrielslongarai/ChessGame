@@ -57,10 +57,7 @@ namespace ChessGame.Roles
 
         public void MovePiece(Position origin, Position destination)
         {
-            if (!GameBoard.IsValidPosition(origin) || !GameBoard.IsValidPosition(destination))
-            {
-                throw new BoardExceptions("\nInvalid position!");
-            }
+           
             if (origin.Equals(destination))
             {
                 throw new BoardExceptions("\nOrigin and destination positions are the same!");

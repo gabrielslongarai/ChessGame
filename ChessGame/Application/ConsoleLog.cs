@@ -35,21 +35,16 @@ namespace ChessGame.Application
         {
             string input = Console.ReadLine().ToLower();
 
-            if (string.IsNullOrEmpty(input) ||
-                input.Length != 2 ||
-                !char.IsLetter(input[0]) ||
-                !char.IsDigit(input[1]) ||
-                input[0] < 'a' || input[0] > 'h' ||
-                input[1] < '1' || input[1] > '8')
-            {
-                throw new BoardExceptions("Invalid chess notation. Please enter a valid position (e.g., e2).");
-            }
-
-
             char column = input[0];
             int line = int.Parse(input[1].ToString());
 
-            return new ChessNotation(column, line);
+            ChessNotation notation = new ChessNotation(column, line);
+            Position position = notation.ToPosition();
+
+            GameBoard board = new GameBoard(8, 8);
+            board.ValidatePosition(position);
+
+            return notation;
         }
 
         private static ConsoleColor GetConsoleColor(EColor color)
