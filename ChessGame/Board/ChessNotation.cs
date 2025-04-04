@@ -1,22 +1,13 @@
-﻿using ChessGame.Board;
-
-
-namespace ChessGame.Entities.BoardLayer
+﻿namespace ChessGame.Board
 {
-    internal class ChessPosition
+    internal class ChessNotation(char column, int line)
     {
-        public char Line { get; set; }
-        public int Column { get; set; }
-
-        public ChessPosition(char line, int column)
-        {
-            Line = line;
-            Column = column;
-        }
+        public char Column { get; set; } = column;
+        public int Line { get; set; } = line;
 
         public Position ToPosition()
         {
-            return new Position(8 - Column, Line - 'a');
+            return new Position(8 - Line, Column - 'a');
         }
 
         public override string ToString()

@@ -2,6 +2,7 @@
 using System.Text;
 using ChessGame.Roles;
 using ChessGame.Exceptions;
+using ChessGame.Board;
 
 
 namespace ChessGame.Application
@@ -15,28 +16,20 @@ namespace ChessGame.Application
                 CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
                 Console.OutputEncoding = Encoding.UTF8;
 
-                ChessMatch newGame = new();
+                ChessMatch chessMatch = new();
 
-                do
+                while (!chessMatch.Finished)
                 {
-                    Console.WriteLine("\n\nDo you want to play again?");
-                    Console.WriteLine("\nPress 1 for Yes or 2 for No.");
-                    char response = char.Parse(Console.ReadLine()!);
-                    if (response == '2')
-                    {
-                        break;
-                    }
-                    else if (response != '1')
-                    {
-                        Console.WriteLine("\nInvalid option. Please try again.");
-                        continue;
-                    }
-                    else
-                    {
-                        Console.Clear();
-                        newGame = new ChessMatch();
-                    }
-                } while (newGame.Finished == false);
+                   
+                    ConsoleLog.RenderBoard(chessMatch.GameBoard);
+                    Console.Write("Type the origin position: ");
+                    Position origin = ConsoleLog.ReadChessNotation().ToPosition();
+                    Console.Write("Type the destination position: ");
+                    Position destination = ConsoleLog.ReadChessNotation().ToPosition();
+                    chessMatch.MovePiece(origin, destination);
+                }
+
+
             }
             catch (BoardExceptions e)
             {
