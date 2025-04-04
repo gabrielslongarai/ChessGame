@@ -20,20 +20,25 @@ namespace ChessGame.Application
 
                 while (!chessMatch.Finished)
                 {
-                   
-                    ConsoleLog.RenderBoard(chessMatch.GameBoard);
-                    Console.Write("Type the origin position: ");
-                    Position origin = ConsoleLog.ReadChessNotation().ToPosition();
-                    Console.Write("Type the destination position: ");
-                    Position destination = ConsoleLog.ReadChessNotation().ToPosition();
-                    chessMatch.MovePiece(origin, destination);
+                    try
+                    {
+                        ConsoleLog.RenderBoard(chessMatch.GameBoard);
+                        Console.Write("Type the origin position: ");
+                        Position origin = ConsoleLog.ReadChessNotation().ToPosition();
+                        Console.Write("Type the destination position: ");
+                        Position destination = ConsoleLog.ReadChessNotation().ToPosition();
+                        chessMatch.MovePiece(origin, destination);
+                        Console.Clear();
+                    }
+                    catch (BoardExceptions e)
+                    {
+                        Console.WriteLine($"\n{e.Message}");
+                        Console.WriteLine("\nPress any key to continue...");
+                        Console.ReadKey();
+                        Console.Clear();
+                        continue;
+                    }
                 }
-
-
-            }
-            catch (BoardExceptions e)
-            {
-                Console.WriteLine($"\n{e.Message}");
             }
             catch (Exception e)
             {
@@ -42,9 +47,8 @@ namespace ChessGame.Application
             finally
             {
                 Console.WriteLine("\nPress any key to exit...");
+                Console.ReadKey();
             }
-
-
         }
     }
 }
