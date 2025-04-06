@@ -23,8 +23,16 @@ namespace ChessGame.Application
                     try
                     {
                         ConsoleLog.RenderBoard(chessMatch.GameBoard);
+
                         Console.Write("Type the origin position: ");
                         Position origin = ConsoleLog.ReadChessNotation().ToPosition();
+
+                        Console.Clear();
+                        bool[,] possibleMoves = chessMatch.GameBoard.GetPiece(origin).PossibleMoves();
+                        ConsoleLog.RenderBoard(chessMatch.GameBoard, possibleMoves);
+
+
+
                         Console.Write("Type the destination position: ");
                         Position destination = ConsoleLog.ReadChessNotation().ToPosition();
                         chessMatch.MovePiece(origin, destination);

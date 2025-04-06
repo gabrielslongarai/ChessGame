@@ -16,7 +16,7 @@ namespace ChessGame.Roles
 
             Position position = new Position(0, 0);
 
-            //Above
+            //Up
             position.SetValues(Position.Line - 1, Position.Column);
             if(Board.IsValidPosition(position) && CanMove(position))
             {

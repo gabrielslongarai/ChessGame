@@ -26,7 +26,7 @@ namespace ChessGame.Roles
 
         private void SetupPieces()
         {
-            
+
 
             GameBoard.AddPiece(new Rook(EColor.Red, GameBoard), new Position(0, 0));
             GameBoard.AddPiece(new Knight(EColor.Red, GameBoard), new Position(0, 1));
@@ -49,15 +49,15 @@ namespace ChessGame.Roles
             GameBoard.AddPiece(new Bishop(EColor.Green, GameBoard), new Position(7, 5));
             GameBoard.AddPiece(new Knight(EColor.Green, GameBoard), new Position(7, 6));
             GameBoard.AddPiece(new Rook(EColor.Green, GameBoard), new Position(7, 7));
-            for (int i = 0; i < 8; i++)
-            {
-                GameBoard.AddPiece(new Pawn(EColor.Green, GameBoard), new Position(6, i));
-            }
+            // for (int i = 0; i < 8; i++)
+            //  {
+            //      GameBoard.AddPiece(new Pawn(EColor.Green, GameBoard), new Position(6, i));
+            // }
         }
 
         public void MovePiece(Position origin, Position destination)
         {
-           
+
             if (origin.Equals(destination))
             {
                 throw new BoardExceptions("\nOrigin and destination positions are the same!");
@@ -79,7 +79,7 @@ namespace ChessGame.Roles
             }
             if (GameBoard.HasPiece(destination) && GameBoard.GetPiece(destination).Color != CurrentColor)
             {
-                GameBoard.RemovePiece(destination); 
+                GameBoard.RemovePiece(destination);
             }
 
             GameBoard.RemovePiece(origin);
