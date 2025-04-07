@@ -13,7 +13,6 @@ namespace ChessGame.Roles
         public override bool[,] PossibleMoves()
         {
             bool[,] possibleMoves = new bool[Board.Lines, Board.Columns];
-
             Position position = new Position(0, 0);
 
             // Up
