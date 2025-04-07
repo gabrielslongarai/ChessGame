@@ -56,28 +56,49 @@ namespace ChessGame.Roles
             }
         }
 
-        private void MovePiece(Position origin, Position destination)
+        public void ValidateOriginPosition(Position origin)
         {
-
-            if (origin.Equals(destination))
+            if (!GameBoard.IsValidPosition(origin))
             {
-                throw new BoardExceptions("\nOrigin and destination positions are the same!");
+                throw new BoardExceptions("\nInvalid origin position!");
             }
-            if (!GameBoard.HasPiece(origin))
+            if (GameBoard.GetPiece(origin) == null)
             {
                 throw new BoardExceptions("\nNo piece at the origin position!");
             }
-
-            Piece piece = GameBoard.GetPiece(origin);
-
-            if (piece.Color != CurrentColor)
+            if (GameBoard.GetPiece(origin).Color != CurrentColor)
             {
                 throw new BoardExceptions("\nIt's not your turn!");
+            }
+            if (!GameBoard.GetPiece(origin).IsThereAnyPossibleMove())
+            {
+                throw new BoardExceptions("\nNo possible moves for this piece!");
+            }
+        }
+
+        public void ValidateMove(Position origin, Position destination)
+        {
+            if (!GameBoard.IsValidPosition(destination))
+            {
+                throw new BoardExceptions("\nInvalid destination position!");
+            }
+            if (origin.Line == destination.Line && origin.Column == destination.Column)
+            {
+                throw new BoardExceptions("\nOrigin and destination positions are the same!");
             }
             if (GameBoard.HasPiece(destination) && GameBoard.GetPiece(destination).Color == CurrentColor)
             {
                 throw new BoardExceptions("\nYou cannot capture your own piece!");
             }
+        }
+
+        private void MovePiece(Position origin, Position destination)
+        {
+            ValidateOriginPosition(origin);
+            ValidateMove(origin, destination);
+
+            Piece piece = GameBoard.GetPiece(origin);
+
             if (GameBoard.HasPiece(destination) && GameBoard.GetPiece(destination).Color != CurrentColor)
             {
                 GameBoard.RemovePiece(destination);
@@ -107,12 +128,8 @@ namespace ChessGame.Roles
                     Position origin = ConsoleLog.ReadChessNotation().ToPosition();
 
                     Console.Clear();
-                    
-                    if(GameBoard.HasPiece(origin) == false)
-                    {
-                        ConsoleLog.RenderBoard(chessMatch.GameBoard);
-                        throw new BoardExceptions("\nNo piece at the origin position!");
-                    }
+
+                    ValidateOriginPosition(origin);
                     bool[,] possibleMoves = chessMatch.GameBoard.GetPiece(origin).PossibleMoves();
                     ConsoleLog.RenderBoard(chessMatch.GameBoard, possibleMoves);
 
@@ -123,7 +140,10 @@ namespace ChessGame.Roles
                 }
                 catch (BoardExceptions e)
                 {
+                    ConsoleLog.RenderBoard(chessMatch.GameBoard);
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"\n{e.Message}");
+                    Console.ForegroundColor = ConsoleColor.White;
                     Console.WriteLine("\nPress any key to continue...");
                     Console.ReadKey();
                     Console.Clear();

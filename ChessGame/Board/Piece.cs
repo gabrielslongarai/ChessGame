@@ -12,6 +12,22 @@ namespace ChessGame.Board
 
         public abstract bool[,] PossibleMoves();
 
+        public bool IsThereAnyPossibleMove()
+        {
+            bool[,] mat = PossibleMoves();
+            for (int i = 0; i < Board.Lines; i++)
+            {
+                for (int j = 0; j < Board.Columns; j++)
+                {
+                    if (mat[i, j])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         public bool CanMove(Position position)
         {
             Piece? piece = Board.GetPiece(position);
