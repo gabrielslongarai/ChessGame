@@ -1,4 +1,5 @@
-﻿namespace ChessGame.Board
+﻿
+namespace ChessGame.Board
 {
     internal class ChessNotation(char column, int line)
     {

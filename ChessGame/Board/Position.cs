@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace ChessGame.Board
 {
     internal class Position

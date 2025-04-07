@@ -1,6 +1,7 @@
 ﻿using ChessGame.Board.Enums;
 using ChessGame.Board;
 using ChessGame.Exceptions;
+using ChessGame.Roles;
 
 namespace ChessGame.Application
 {
@@ -88,24 +89,22 @@ namespace ChessGame.Application
 
         public static ChessNotation ReadChessNotation()
         {
-
             string input = Console.ReadLine().ToLower();
 
             if (input == "")
             {
                 throw new BoardExceptions("\nIt can't be empty!");
             }
-
-
+            if (input.Length != 2)
+            {
+                throw new BoardExceptions("\nInvalid input! It must be two characters.");
+            }
 
             char column = input[0];
             int line = int.Parse(input[1].ToString());
 
             ChessNotation notation = new ChessNotation(column, line);
             Position position = notation.ToPosition();
-
-            GameBoard board = new GameBoard(8, 8);
-            board.ValidatePosition(position);
 
             return notation;
         }

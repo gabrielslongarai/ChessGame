@@ -4,6 +4,7 @@ using ChessGame.Exceptions;
 using ChessGame.Application;
 
 
+
 namespace ChessGame.Roles
 {
     internal class ChessMatch
@@ -55,7 +56,7 @@ namespace ChessGame.Roles
             }
         }
 
-        public void MovePiece(Position origin, Position destination)
+        private void MovePiece(Position origin, Position destination)
         {
 
             if (origin.Equals(destination))
@@ -84,9 +85,51 @@ namespace ChessGame.Roles
 
             GameBoard.RemovePiece(origin);
             GameBoard.AddPiece(piece, destination);
+            ChangeTurn(piece);
+        }
+
+        private void ChangeTurn(Piece piece)
+        {
             piece.IncreaseMoveCount();
             TurnCount++;
             CurrentColor = (CurrentColor == EColor.Green) ? EColor.Red : EColor.Green;
+        }
+
+        public void InitializeGame(ChessMatch chessMatch)
+        {
+            while (!chessMatch.Finished)
+            {
+                try
+                {
+                    ConsoleLog.RenderBoard(chessMatch.GameBoard);
+
+                    Console.Write("\nOrigin: ");
+                    Position origin = ConsoleLog.ReadChessNotation().ToPosition();
+
+                    Console.Clear();
+                    
+                    if(GameBoard.HasPiece(origin) == false)
+                    {
+                        ConsoleLog.RenderBoard(chessMatch.GameBoard);
+                        throw new BoardExceptions("\nNo piece at the origin position!");
+                    }
+                    bool[,] possibleMoves = chessMatch.GameBoard.GetPiece(origin).PossibleMoves();
+                    ConsoleLog.RenderBoard(chessMatch.GameBoard, possibleMoves);
+
+                    Console.Write("\nDestination: ");
+                    Position destination = ConsoleLog.ReadChessNotation().ToPosition();
+                    chessMatch.MovePiece(origin, destination);
+                    Console.Clear();
+                }
+                catch (BoardExceptions e)
+                {
+                    Console.WriteLine($"\n{e.Message}");
+                    Console.WriteLine("\nPress any key to continue...");
+                    Console.ReadKey();
+                    Console.Clear();
+                    continue;
+                }
+            }
         }
     }
 }
