@@ -49,10 +49,10 @@ namespace ChessGame.Roles
             GameBoard.AddPiece(new Bishop(EColor.Green, GameBoard), new Position(7, 5));
             GameBoard.AddPiece(new Knight(EColor.Green, GameBoard), new Position(7, 6));
             GameBoard.AddPiece(new Rook(EColor.Green, GameBoard), new Position(7, 7));
-            // for (int i = 0; i < 8; i++)
-            //  {
-            //      GameBoard.AddPiece(new Pawn(EColor.Green, GameBoard), new Position(6, i));
-            // }
+            for (int i = 0; i < 8; i++)
+            {
+                GameBoard.AddPiece(new Pawn(EColor.Green, GameBoard), new Position(6, i));
+            }
         }
 
         public void MovePiece(Position origin, Position destination)
