@@ -13,6 +13,8 @@ namespace ChessGame.Roles
         private int TurnCount { get; set; }
         private EColor CurrentColor { get; set; }
         public bool Finished { get; set; }
+        private HashSet<Piece> PiecesOnBoard { get; set; }
+        private HashSet<Piece> CapturedPieces { get; set; }
 
 
         public ChessMatch()
@@ -22,37 +24,43 @@ namespace ChessGame.Roles
             TurnCount = 1;
             CurrentColor = EColor.Green;
             Finished = false;
+            PiecesOnBoard = new HashSet<Piece>();
+            CapturedPieces = new HashSet<Piece>();
             SetupPieces();
+        }
+
+        public void SetupNewPiece(char column, int line, Piece piece)
+        {
+            GameBoard.AddPiece(piece, new ChessNotation(column, line).ToPosition());
+            PiecesOnBoard.Add(piece);
         }
 
         private void SetupPieces()
         {
-
-
-            GameBoard.AddPiece(new Rook(EColor.Red, GameBoard), new Position(0, 0));
-            GameBoard.AddPiece(new Knight(EColor.Red, GameBoard), new Position(0, 1));
-            GameBoard.AddPiece(new Bishop(EColor.Red, GameBoard), new Position(0, 2));
-            GameBoard.AddPiece(new King(EColor.Red, GameBoard), new Position(0, 3));
-            GameBoard.AddPiece(new Queen(EColor.Red, GameBoard), new Position(0, 4));
-            GameBoard.AddPiece(new Bishop(EColor.Red, GameBoard), new Position(0, 5));
-            GameBoard.AddPiece(new Knight(EColor.Red, GameBoard), new Position(0, 6));
-            GameBoard.AddPiece(new Rook(EColor.Red, GameBoard), new Position(0, 7));
+            SetupNewPiece('a', 1, new Rook(EColor.Green, GameBoard));
+            SetupNewPiece('b', 1, new Knight(EColor.Green, GameBoard));
+            SetupNewPiece('c', 1, new Bishop(EColor.Green, GameBoard));
+            SetupNewPiece('d', 1, new King(EColor.Green, GameBoard));
+            SetupNewPiece('e', 1, new Queen(EColor.Green, GameBoard));
+            SetupNewPiece('f', 1, new Bishop(EColor.Green, GameBoard));
+            SetupNewPiece('g', 1, new Knight(EColor.Green, GameBoard));
+            SetupNewPiece('h', 1, new Rook(EColor.Green, GameBoard));
             for (int i = 0; i < 8; i++)
             {
-                GameBoard.AddPiece(new Pawn(EColor.Red, GameBoard), new Position(1, i));
+                SetupNewPiece((char)('a' + i), 2, new Pawn(EColor.Green, GameBoard));
             }
 
-            GameBoard.AddPiece(new Rook(EColor.Green, GameBoard), new Position(7, 0));
-            GameBoard.AddPiece(new Knight(EColor.Green, GameBoard), new Position(7, 1));
-            GameBoard.AddPiece(new Bishop(EColor.Green, GameBoard), new Position(7, 2));
-            GameBoard.AddPiece(new King(EColor.Green, GameBoard), new Position(7, 3));
-            GameBoard.AddPiece(new Queen(EColor.Green, GameBoard), new Position(7, 4));
-            GameBoard.AddPiece(new Bishop(EColor.Green, GameBoard), new Position(7, 5));
-            GameBoard.AddPiece(new Knight(EColor.Green, GameBoard), new Position(7, 6));
-            GameBoard.AddPiece(new Rook(EColor.Green, GameBoard), new Position(7, 7));
+            SetupNewPiece('a', 8, new Rook(EColor.Red, GameBoard));
+            SetupNewPiece('b', 8, new Knight(EColor.Red, GameBoard));
+            SetupNewPiece('c', 8, new Bishop(EColor.Red, GameBoard));
+            SetupNewPiece('d', 8, new King(EColor.Red, GameBoard));
+            SetupNewPiece('e', 8, new Queen(EColor.Red, GameBoard));
+            SetupNewPiece('f', 8, new Bishop(EColor.Red, GameBoard));
+            SetupNewPiece('g', 8, new Knight(EColor.Red, GameBoard));
+            SetupNewPiece('h', 8, new Rook(EColor.Red, GameBoard));
             for (int i = 0; i < 8; i++)
             {
-                GameBoard.AddPiece(new Pawn(EColor.Green, GameBoard), new Position(6, i));
+                SetupNewPiece((char)('a' + i), 7, new Pawn(EColor.Red, GameBoard));
             }
         }
 
