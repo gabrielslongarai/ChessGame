@@ -10,8 +10,8 @@ namespace ChessGame.Roles
     internal class ChessMatch
     {
         public GameBoard GameBoard { get; private set; }
-        private int TurnCount { get; set; }
-        private EColor CurrentColor { get; set; }
+        public int TurnCount { get; private set; }
+        public EColor CurrentColor { get; private set; }
         public bool Finished { get; set; }
         private HashSet<Piece> PiecesOnBoard { get; set; }
         private HashSet<Piece> CapturedPieces { get; set; }
@@ -163,16 +163,20 @@ namespace ChessGame.Roles
             {
                 try
                 {
-                    ConsoleLog.RenderBoard(chessMatch.GameBoard);
+                    ConsoleLog.RenderBoard(chessMatch);
 
                     Console.Write("\nOrigin: ");
                     Position origin = ConsoleLog.ReadChessNotation().ToPosition();
+                    Console.WriteLine();
+
 
                     Console.Clear();
 
                     ValidateOriginPosition(origin);
                     bool[,] possibleMoves = chessMatch.GameBoard.GetPiece(origin).PossibleMoves();
-                    ConsoleLog.RenderBoard(chessMatch.GameBoard, possibleMoves);
+                    ConsoleLog.RenderBoard(chessMatch, possibleMoves);
+
+
 
                     Console.Write("\nDestination: ");
                     Position destination = ConsoleLog.ReadChessNotation().ToPosition();
@@ -181,7 +185,7 @@ namespace ChessGame.Roles
                 }
                 catch (BoardExceptions e)
                 {
-                    ConsoleLog.RenderBoard(chessMatch.GameBoard);
+                    ConsoleLog.RenderBoard(chessMatch);
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"\n{e.Message}");
                     Console.ForegroundColor = ConsoleColor.White;
