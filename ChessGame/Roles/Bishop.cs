@@ -16,6 +16,7 @@ namespace ChessGame.Roles
             bool[,] possibleMoves = new bool[Board.Lines, Board.Columns];
             Position position = new Position(0, 0);
 
+            // Up-Right
             position.SetValues(Position.Line - 1, Position.Column + 1);
             while (Board.IsValidPosition(position) && CanMove(position))
             {
@@ -27,6 +28,7 @@ namespace ChessGame.Roles
                 position.SetValues(position.Line - 1, position.Column + 1);
             }
 
+            // Up-Left
             position.SetValues(Position.Line - 1, Position.Column - 1);
             while (Board.IsValidPosition(position) && CanMove(position))
             {
@@ -38,6 +40,7 @@ namespace ChessGame.Roles
                 position.SetValues(position.Line - 1, position.Column - 1);
             }
 
+            // Down-Right
             position.SetValues(Position.Line + 1, Position.Column + 1);
             while (Board.IsValidPosition(position) && CanMove(position))
             {
@@ -49,6 +52,7 @@ namespace ChessGame.Roles
                 position.SetValues(position.Line + 1, position.Column + 1);
             }
 
+            // Down-Left
             position.SetValues(Position.Line + 1, Position.Column - 1);
             while (Board.IsValidPosition(position) && CanMove(position))
             {
