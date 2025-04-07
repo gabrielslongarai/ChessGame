@@ -123,6 +123,33 @@ namespace ChessGame.Roles
             }
         }
 
+        private HashSet<Piece> GetCapturedPieces(EColor color)
+        {
+            HashSet<Piece> pieces = new HashSet<Piece>();
+            foreach (Piece piece in CapturedPieces)
+            {
+                if (piece.Color == color)
+                {
+                    pieces.Add(piece);
+                }
+            }
+            return pieces;
+        }
+
+        private HashSet<Piece> GetPiecesOnBoard(EColor color)
+        {
+            HashSet<Piece> pieces = new HashSet<Piece>();
+            foreach (Piece piece in PiecesOnBoard)
+            {
+                if (piece.Color == color)
+                {
+                    pieces.Add(piece);
+                }
+            }
+            pieces.ExceptWith(GetCapturedPieces(color));
+            return pieces;
+        }
+
         private void ChangeTurn(Piece piece)
         {
             piece.IncreaseMoveCount();
