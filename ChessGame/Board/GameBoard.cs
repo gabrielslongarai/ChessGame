@@ -25,14 +25,16 @@ namespace ChessGame.Board
             piece.Position = position;
         }
 
-        public void RemovePiece(Position position)
+        public Piece RemovePiece(Position position)
         {
             if (GetPiece(position) == null)
             {
                 throw new BoardExceptions("\nThere is no piece in this position!");
             }
+            Piece piece = GetPiece(position);
+            piece.Position = null;
             Pieces[position.Line, position.Column] = null;
-            position = null;
+            return piece;
         }
 
         public Piece GetPiece(Position position)

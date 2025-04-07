@@ -107,14 +107,20 @@ namespace ChessGame.Roles
 
             Piece piece = GameBoard.GetPiece(origin);
 
-            if (GameBoard.HasPiece(destination) && GameBoard.GetPiece(destination).Color != CurrentColor)
-            {
-                GameBoard.RemovePiece(destination);
-            }
+            CapturePiece(destination);
 
             GameBoard.RemovePiece(origin);
             GameBoard.AddPiece(piece, destination);
             ChangeTurn(piece);
+        }
+
+        private void CapturePiece(Position position)
+        {
+            if (GameBoard.HasPiece(position) && GameBoard.GetPiece(position).Color != CurrentColor)
+            {
+                Piece capturedPiece = GameBoard.RemovePiece(position);
+                CapturedPieces.Add(capturedPiece);
+            }
         }
 
         private void ChangeTurn(Piece piece)
