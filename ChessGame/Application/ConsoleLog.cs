@@ -43,12 +43,12 @@ namespace ChessGame.Application
             ShowCurrentColor(chessMatch.CurrentColor);
         }
 
-        public static void ShowTurn(int turn)
+        private static void ShowTurn(int turn)
         {
             Console.WriteLine($"\nTurn: {turn}");
         }
 
-        public static void ShowCurrentColor(EColor color)
+        private static void ShowCurrentColor(EColor color)
         {
             if (color == EColor.Green)
             {
@@ -119,7 +119,7 @@ namespace ChessGame.Application
             }
         }
 
-        public static void ValidateChessNotation(string input)
+        private static void ValidateChessNotation(string input)
         {
             if (input == "")
             {

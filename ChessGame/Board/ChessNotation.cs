@@ -13,7 +13,7 @@ namespace ChessGame.Board
 
         public override string ToString()
         {
-            return $"{Line}{Column}";
+            return $"{Column}{Line}";
         }
     }
 }
