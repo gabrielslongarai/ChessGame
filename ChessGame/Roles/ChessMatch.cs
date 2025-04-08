@@ -64,7 +64,7 @@ namespace ChessGame.Roles
             }
         }
 
-        public void ValidateOriginPosition(Position origin)
+        internal void ValidateOriginPosition(Position origin)
         {
             if (!GameBoard.IsValidPosition(origin))
             {
@@ -100,7 +100,7 @@ namespace ChessGame.Roles
             }
         }
 
-        private void MovePiece(Position origin, Position destination)
+        internal void MovePiece(Position origin, Position destination)
         {
             ValidateOriginPosition(origin);
             ValidateMove(origin, destination);
@@ -155,46 +155,6 @@ namespace ChessGame.Roles
             piece.IncreaseMoveCount();
             TurnCount++;
             CurrentColor = (CurrentColor == EColor.Green) ? EColor.Red : EColor.Green;
-        }
-
-        public void InitializeGame(ChessMatch chessMatch)
-        {
-            while (!chessMatch.Finished)
-            {
-                try
-                {
-                    ConsoleLog.RenderBoard(chessMatch);
-
-                    Console.Write("\nOrigin: ");
-                    Position origin = ConsoleLog.ReadChessNotation().ToPosition();
-                    Console.WriteLine();
-
-
-                    Console.Clear();
-
-                    ValidateOriginPosition(origin);
-                    bool[,] possibleMoves = chessMatch.GameBoard.GetPiece(origin).PossibleMoves();
-                    ConsoleLog.RenderBoard(chessMatch, possibleMoves);
-
-
-
-                    Console.Write("\nDestination: ");
-                    Position destination = ConsoleLog.ReadChessNotation().ToPosition();
-                    chessMatch.MovePiece(origin, destination);
-                    Console.Clear();
-                }
-                catch (BoardExceptions e)
-                {
-                    ConsoleLog.RenderBoard(chessMatch);
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"\n{e.Message}");
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.WriteLine("\nPress any key to continue...");
-                    Console.ReadKey();
-                    Console.Clear();
-                    continue;
-                }
-            }
         }
     }
 }

@@ -15,7 +15,7 @@ namespace ChessGame.Application
                 Console.OutputEncoding = Encoding.UTF8;
 
                 ChessMatch chessMatch = new();
-                chessMatch.InitializeGame(chessMatch);
+                GameController.InitializeGame(chessMatch);
             }
             catch (Exception e)
             {
