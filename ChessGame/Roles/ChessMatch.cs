@@ -98,6 +98,10 @@ namespace ChessGame.Roles
             {
                 throw new BoardExceptions("\nYou cannot capture your own piece!");
             }
+            if(!GameBoard.GetPiece(origin).PossibleMoves()[destination.Line, destination.Column])
+            {
+                throw new BoardExceptions("\nInvalid move for this piece!");
+            }
         }
 
         internal void MovePiece(Position origin, Position destination)
