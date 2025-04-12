@@ -18,14 +18,11 @@ namespace ChessGame.Application
                     Position origin = ConsoleLog.ReadChessNotation().ToPosition();
                     Console.WriteLine();
 
-
-                    Console.Clear();
-
                     chessMatch.ValidateOriginPosition(origin);
                     bool[,] possibleMoves = chessMatch.GameBoard.GetPiece(origin).PossibleMoves();
+
+                    Console.Clear();
                     ConsoleLog.RenderBoard(chessMatch, possibleMoves);
-
-
 
                     Console.Write("\n\nDestination: ");
                     Position destination = ConsoleLog.ReadChessNotation().ToPosition();

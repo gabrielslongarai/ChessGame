@@ -74,8 +74,6 @@ namespace ChessGame.Application
             Console.ForegroundColor = ConsoleColor.White;
         }
 
-
-        //função que imprime na tela dentro as peçcas capturadas
         private static void ShowCapturedPieces(ChessMatch chessMatch)
         {
             Console.WriteLine("\nCaptured Pieces");
