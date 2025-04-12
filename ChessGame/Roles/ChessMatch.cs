@@ -13,8 +13,8 @@ namespace ChessGame.Roles
         public int TurnCount { get; private set; }
         public EColor CurrentColor { get; private set; }
         public bool Finished { get; set; }
-        private HashSet<Piece> PiecesOnBoard { get; set; }
-        private HashSet<Piece> CapturedPieces { get; set; }
+        public HashSet<Piece> PiecesOnBoard { get; private set; }
+        public HashSet<Piece> CapturedPieces { get; private set; }
 
 
         public ChessMatch()
@@ -123,7 +123,7 @@ namespace ChessGame.Roles
             }
         }
 
-        private HashSet<Piece> GetCapturedPieces(EColor color)
+        public HashSet<Piece> GetCapturedPieces(EColor color)
         {
             HashSet<Piece> pieces = new HashSet<Piece>();
             foreach (Piece piece in CapturedPieces)

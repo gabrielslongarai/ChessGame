@@ -14,7 +14,7 @@ namespace ChessGame.Application
                 {
                     ConsoleLog.RenderBoard(chessMatch);
 
-                    Console.Write("\nOrigin: ");
+                    Console.Write("\n\nOrigin: ");
                     Position origin = ConsoleLog.ReadChessNotation().ToPosition();
                     Console.WriteLine();
 
@@ -27,7 +27,7 @@ namespace ChessGame.Application
 
 
 
-                    Console.Write("\nDestination: ");
+                    Console.Write("\n\nDestination: ");
                     Position destination = ConsoleLog.ReadChessNotation().ToPosition();
                     chessMatch.MovePiece(origin, destination);
                     Console.Clear();

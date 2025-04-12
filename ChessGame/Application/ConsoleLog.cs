@@ -2,6 +2,7 @@
 using ChessGame.Board;
 using ChessGame.Exceptions;
 using ChessGame.Roles;
+using System.Collections.Generic;
 
 namespace ChessGame.Application
 {
@@ -23,6 +24,7 @@ namespace ChessGame.Application
             Console.WriteLine("  a b c d e f g h");
             ShowTurn(chessMatch.TurnCount);
             ShowCurrentColor(chessMatch.CurrentColor);
+            ShowCapturedPieces(chessMatch);
         }
 
         public static void RenderBoard(ChessMatch chessMatch)
@@ -41,6 +43,7 @@ namespace ChessGame.Application
             Console.WriteLine("  a b c d e f g h");
             ShowTurn(chessMatch.TurnCount);
             ShowCurrentColor(chessMatch.CurrentColor);
+            ShowCapturedPieces(chessMatch);
         }
 
         private static void ShowTurn(int turn)
@@ -71,8 +74,33 @@ namespace ChessGame.Application
             Console.ForegroundColor = ConsoleColor.White;
         }
 
+
+        //função que imprime na tela dentro as peçcas capturadas
+        private static void ShowCapturedPieces(ChessMatch chessMatch)
+        {
+            Console.WriteLine("\nCaptured Pieces");
+            Console.Write("Green: ");
+            HashSet<Piece> greenPieces = chessMatch.GetCapturedPieces(EColor.Green);
+
+            foreach (Piece piece in greenPieces)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write(piece + " ");
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+
+            Console.Write("\nRed: ");
+            HashSet<Piece> redPieces = chessMatch.GetCapturedPieces(EColor.Red);
+
+            foreach (Piece piece in redPieces)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write(piece + " ");
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+        }
         private static void RenderPiece(Piece piece, int i, int x, bool isPossibleMove)
-        { 
+        {
             if (piece == null)
             {
                 if (isPossibleMove)
