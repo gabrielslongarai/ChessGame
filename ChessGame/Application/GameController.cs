@@ -34,7 +34,6 @@ namespace ChessGame.Application
                 }
                 catch (BoardExceptions e)
                 {
-                    ConsoleLog.RenderBoard(chessMatch);
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"\n{e.Message}");
                     Console.ForegroundColor = ConsoleColor.White;
