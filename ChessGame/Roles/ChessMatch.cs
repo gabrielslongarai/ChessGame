@@ -124,6 +124,7 @@ namespace ChessGame.Roles
 
             GameBoard.RemovePiece(origin);
             GameBoard.AddPiece(piece, destination);
+            TurnCount++;
         }
 
         public void PerformPlay(Position origin, Position destination)
@@ -139,7 +140,6 @@ namespace ChessGame.Roles
             }
 
             piece.IncreaseMoveCount();
-            TurnCount++;
             CurrentColor = (CurrentColor == EColor.Green) ? EColor.Red : EColor.Green;
         }
 
