@@ -16,6 +16,7 @@ namespace ChessGame.Roles
         public bool Finished { get; private set; }
         public HashSet<Piece> PiecesOnBoard { get; private set; }
         public HashSet<Piece> CapturedPieces { get; private set; }
+        public bool Check { get; private set; }
 
 
         public ChessMatch()
@@ -25,6 +26,7 @@ namespace ChessGame.Roles
             TurnCount = 1;
             CurrentColor = EColor.Green;
             Finished = false;
+            Check = false;
             PiecesOnBoard = new HashSet<Piece>();
             CapturedPieces = new HashSet<Piece>();
             SetupPieces();
@@ -116,7 +118,7 @@ namespace ChessGame.Roles
 
             GameBoard.RemovePiece(origin);
             GameBoard.AddPiece(piece, destination);
-            TurnCount++;
+            piece.IncreaseMoveCount();
 
             return capturedPiece;
         }
@@ -133,7 +135,6 @@ namespace ChessGame.Roles
             }
 
             GameBoard.AddPiece(piece, origin);
-            TurnCount--;
         }
 
         public void PerformPlay(Position origin, Position destination)
@@ -148,7 +149,16 @@ namespace ChessGame.Roles
                 throw new BoardExceptions("\nYou cannot put yourself in check!");
             }
 
-            piece.IncreaseMoveCount();
+            if (IsInCheck(GetOpponentColor(piece.Color)))
+            {
+                Check = true;
+            }
+            else
+            {
+                Check = false;
+            }
+
+                TurnCount++;
             CurrentColor = (CurrentColor == EColor.Green) ? EColor.Red : EColor.Green;
         }
 
