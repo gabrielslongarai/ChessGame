@@ -8,8 +8,6 @@ namespace ChessGame.Board
         public EColor Color { get; protected set; } = color;
         public int MoveCount { get; protected set; } = 0;
         public ChessGame.Board.GameBoard Board { get; protected set; } = board;
-
-
         public abstract bool[,] PossibleMoves();
 
         public bool IsThereAnyPossibleMove()
