@@ -105,15 +105,7 @@ namespace ChessGame.Roles
             }
         }
 
-        private void UndoMove(Position origin, Position destination, Piece piece)
-        {
-            GameBoard.RemovePiece(destination);
-            GameBoard.AddPiece(piece, origin);
-            piece.DecreaseMoveCount();
-            TurnCount--;
-        }
-
-        private void MakeMovement(Position origin, Position destination)
+        private Piece? MakeMovement(Position origin, Position destination)
         {
             ValidateOriginPosition(origin);
             ValidateMove(origin, destination);
@@ -125,17 +117,34 @@ namespace ChessGame.Roles
             GameBoard.RemovePiece(origin);
             GameBoard.AddPiece(piece, destination);
             TurnCount++;
+
+            return capturedPiece;
+        }
+
+        private void UndoMove(Position origin, Position destination, Piece capturedPiece)
+        {
+            Piece piece = GameBoard.RemovePiece(destination);
+            piece.DecreaseMoveCount();
+
+            if (capturedPiece != null)
+            {
+                GameBoard.AddPiece(capturedPiece, destination);
+                CapturedPieces.Remove(capturedPiece);
+            }
+
+            GameBoard.AddPiece(piece, origin);
+            TurnCount--;
         }
 
         public void PerformPlay(Position origin, Position destination)
         {
-            MakeMovement(origin, destination);
+            Piece? capturedPiece = MakeMovement(origin, destination);
 
             Piece piece = GameBoard.GetPiece(destination);
 
             if (IsInCheck(piece.Color))
             {
-                UndoMove(origin, destination, piece);
+                UndoMove(origin, destination, capturedPiece);
                 throw new BoardExceptions("\nYou cannot put yourself in check!");
             }
 
