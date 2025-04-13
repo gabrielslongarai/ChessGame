@@ -1,7 +1,8 @@
 ﻿using ChessGame.Board;
 using ChessGame.Board.Enums;
 using ChessGame.Exceptions;
-using ChessGame.Application;
+using System.Drawing;
+using System.IO.Pipelines;
 
 
 
@@ -12,7 +13,7 @@ namespace ChessGame.Roles
         public GameBoard GameBoard { get; private set; }
         public int TurnCount { get; private set; }
         public EColor CurrentColor { get; private set; }
-        public bool Finished { get; set; }
+        public bool Finished { get; private set; }
         public HashSet<Piece> PiecesOnBoard { get; private set; }
         public HashSet<Piece> CapturedPieces { get; private set; }
 
@@ -98,33 +99,62 @@ namespace ChessGame.Roles
             {
                 throw new BoardExceptions("\nYou cannot capture your own piece!");
             }
-            if(!GameBoard.GetPiece(origin).PossibleMoves()[destination.Line, destination.Column])
-            {
-                throw new BoardExceptions("\nInvalid move for this piece!");
+             if (!GameBoard.GetPiece(origin).PossibleMoves()[destination.Line, destination.Column])
+             {
+                 throw new BoardExceptions("\nInvalid move for this piece!");
             }
         }
 
-        internal void MovePiece(Position origin, Position destination)
+        private void UndoMove(Position origin, Position destination, Piece piece)
+        {
+            GameBoard.RemovePiece(destination);
+            GameBoard.AddPiece(piece, origin);
+            piece.DecreaseMoveCount();
+            TurnCount--;
+        }
+
+        private Piece? MakeMovement(Position origin, Position destination)
         {
             ValidateOriginPosition(origin);
             ValidateMove(origin, destination);
 
             Piece piece = GameBoard.GetPiece(origin);
 
-            CapturePiece(destination);
+            Piece? capturedPiece = CapturePiece(destination);
 
             GameBoard.RemovePiece(origin);
             GameBoard.AddPiece(piece, destination);
-            ChangeTurn(piece);
+
+            return capturedPiece;
         }
 
-        private void CapturePiece(Position position)
+        public void PerformPlay(Position origin, Position destination)
+        {
+            MakeMovement(origin, destination);
+
+            Piece piece = GameBoard.GetPiece(destination);
+
+            if (IsInCheck(piece.Color))
+            {
+                UndoMove(origin, destination, piece);
+                throw new BoardExceptions("\nYou cannot put yourself in check!");
+            }
+
+            piece.IncreaseMoveCount();
+            TurnCount++;
+            CurrentColor = (CurrentColor == EColor.Green) ? EColor.Red : EColor.Green;
+        }
+
+        private Piece? CapturePiece(Position position)
         {
             if (GameBoard.HasPiece(position) && GameBoard.GetPiece(position).Color != CurrentColor)
             {
                 Piece capturedPiece = GameBoard.RemovePiece(position);
                 CapturedPieces.Add(capturedPiece);
+                return capturedPiece;
             }
+
+            return null;
         }
 
         public HashSet<Piece> GetCapturedPieces(EColor color)
@@ -154,11 +184,36 @@ namespace ChessGame.Roles
             return pieces;
         }
 
-        private void ChangeTurn(Piece piece)
+        public bool IsInCheck(EColor color)
         {
-            piece.IncreaseMoveCount();
-            TurnCount++;
-            CurrentColor = (CurrentColor == EColor.Green) ? EColor.Red : EColor.Green;
+            Piece king = GetKing(color);
+
+            foreach (Piece piece in GetPiecesOnBoard(GetOpponentColor(color)))
+            {
+                bool[,] possibleMoves = piece.PossibleMoves();
+                if (possibleMoves[king.Position.Line, king.Position.Column])
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private Piece GetKing(EColor color)
+        {
+            foreach (Piece piece in GetPiecesOnBoard(color))
+            {
+                if (piece is King)
+                {
+                    return piece;
+                }
+            }
+            return null;
+        }
+
+        private EColor GetOpponentColor(EColor color)
+        {
+            return (color == EColor.Green) ? EColor.Red : EColor.Green;
         }
     }
 }

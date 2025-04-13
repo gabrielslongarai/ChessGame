@@ -26,7 +26,7 @@ namespace ChessGame.Application
 
                     Console.Write("\n\nDestination: ");
                     Position destination = ConsoleLog.ReadChessNotation().ToPosition();
-                    chessMatch.MovePiece(origin, destination);
+                    chessMatch.PerformPlay(origin, destination);
                     Console.Clear();
                 }
                 catch (BoardExceptions e)

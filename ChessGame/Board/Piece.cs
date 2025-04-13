@@ -37,5 +37,9 @@ namespace ChessGame.Board
         {
             MoveCount++;
         }
+        public void DecreaseMoveCount()
+        {
+            MoveCount--;
+        }
     }
 }
