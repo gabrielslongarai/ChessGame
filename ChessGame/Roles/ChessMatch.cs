@@ -99,9 +99,9 @@ namespace ChessGame.Roles
             {
                 throw new BoardExceptions("\nYou cannot capture your own piece!");
             }
-             if (!GameBoard.GetPiece(origin).PossibleMoves()[destination.Line, destination.Column])
-             {
-                 throw new BoardExceptions("\nInvalid move for this piece!");
+            if (!GameBoard.GetPiece(origin).PossibleMoves()[destination.Line, destination.Column])
+            {
+                throw new BoardExceptions("\nInvalid move for this piece!");
             }
         }
 
@@ -113,7 +113,7 @@ namespace ChessGame.Roles
             TurnCount--;
         }
 
-        private Piece? MakeMovement(Position origin, Position destination)
+        private void MakeMovement(Position origin, Position destination)
         {
             ValidateOriginPosition(origin);
             ValidateMove(origin, destination);
@@ -124,8 +124,6 @@ namespace ChessGame.Roles
 
             GameBoard.RemovePiece(origin);
             GameBoard.AddPiece(piece, destination);
-
-            return capturedPiece;
         }
 
         public void PerformPlay(Position origin, Position destination)
