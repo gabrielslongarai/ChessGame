@@ -179,7 +179,7 @@ namespace ChessGame.Roles
             return null;
         }
 
-        public HashSet<Piece> GetCapturedPieces(EColor color)
+        private HashSet<Piece> GetCapturedPieces(EColor color)
         {
             HashSet<Piece> pieces = new HashSet<Piece>();
             foreach (Piece piece in CapturedPieces)
@@ -206,7 +206,7 @@ namespace ChessGame.Roles
             return pieces;
         }
 
-        public bool IsInCheck(EColor color)
+        private bool IsInCheck(EColor color)
         {
             Piece king = GetKing(color);
 
