@@ -41,33 +41,33 @@ namespace ChessGame.Roles
         private void SetupPieces()
         {
             SetupNewPiece('a', 1, new Rook(EColor.Green, GameBoard));
-            SetupNewPiece('b', 1, new Knight(EColor.Green, GameBoard));
-            SetupNewPiece('c', 1, new Bishop(EColor.Green, GameBoard));
+            //SetupNewPiece('b', 1, new Knight(EColor.Green, GameBoard));
+            //SetupNewPiece('c', 1, new Bishop(EColor.Green, GameBoard));
             SetupNewPiece('d', 1, new King(EColor.Green, GameBoard));
-            SetupNewPiece('e', 1, new Queen(EColor.Green, GameBoard));
-            SetupNewPiece('f', 1, new Bishop(EColor.Green, GameBoard));
-            SetupNewPiece('g', 1, new Knight(EColor.Green, GameBoard));
+            //SetupNewPiece('e', 1, new Queen(EColor.Green, GameBoard));
+            //SetupNewPiece('f', 1, new Bishop(EColor.Green, GameBoard));
+            //SetupNewPiece('g', 1, new Knight(EColor.Green, GameBoard));
             SetupNewPiece('h', 1, new Rook(EColor.Green, GameBoard));
-            for (int i = 0; i < 8; i++)
-            {
-                SetupNewPiece((char)('a' + i), 2, new Pawn(EColor.Green, GameBoard));
-            }
+            //for (int i = 0; i < 8; i++)
+            //{
+             //   SetupNewPiece((char)('a' + i), 2, new Pawn(EColor.Green, GameBoard));
+            //}
 
             SetupNewPiece('a', 8, new Rook(EColor.Red, GameBoard));
-            SetupNewPiece('b', 8, new Knight(EColor.Red, GameBoard));
-            SetupNewPiece('c', 8, new Bishop(EColor.Red, GameBoard));
+            //SetupNewPiece('b', 8, new Knight(EColor.Red, GameBoard));
+            //SetupNewPiece('c', 8, new Bishop(EColor.Red, GameBoard));
             SetupNewPiece('d', 8, new King(EColor.Red, GameBoard));
-            SetupNewPiece('e', 8, new Queen(EColor.Red, GameBoard));
-            SetupNewPiece('f', 8, new Bishop(EColor.Red, GameBoard));
-            SetupNewPiece('g', 8, new Knight(EColor.Red, GameBoard));
+            //SetupNewPiece('e', 8, new Queen(EColor.Red, GameBoard));
+            //SetupNewPiece('f', 8, new Bishop(EColor.Red, GameBoard));
+            //SetupNewPiece('g', 8, new Knight(EColor.Red, GameBoard));
             SetupNewPiece('h', 8, new Rook(EColor.Red, GameBoard));
-            for (int i = 0; i < 8; i++)
-            {
-                SetupNewPiece((char)('a' + i), 7, new Pawn(EColor.Red, GameBoard));
-            }
+            //for (int i = 0; i < 8; i++)
+            //{
+              //  SetupNewPiece((char)('a' + i), 7, new Pawn(EColor.Red, GameBoard));
+            //}
         }
 
-        internal void ValidateOriginPosition(Position origin)
+        public void ValidateOriginPosition(Position origin)
         {
             if (!GameBoard.IsValidPosition(origin))
             {
@@ -101,10 +101,10 @@ namespace ChessGame.Roles
             {
                 throw new BoardExceptions("\nYou cannot capture your own piece!");
             }
-            if (!GameBoard.GetPiece(origin).PossibleMoves()[destination.Line, destination.Column])
-            {
-                throw new BoardExceptions("\nInvalid move for this piece!");
-            }
+            //if (!GameBoard.GetPiece(origin).PossibleMoves()[destination.Line, destination.Column])
+            //{
+              //  throw new BoardExceptions("\nInvalid move for this piece!");
+            //}
         }
 
         private Piece? Move(Position origin, Position destination)
@@ -179,7 +179,7 @@ namespace ChessGame.Roles
             CurrentColor = (CurrentColor == EColor.Green) ? EColor.Red : EColor.Green;
         }
 
-        private HashSet<Piece> GetCapturedPieces(EColor color)
+        public HashSet<Piece> GetCapturedPieces(EColor color)
         {
             HashSet<Piece> pieces = new HashSet<Piece>();
             foreach (Piece piece in CapturedPieces)
@@ -206,7 +206,7 @@ namespace ChessGame.Roles
             return pieces;
         }
 
-        private bool IsInCheck(EColor color)
+        public bool IsInCheck(EColor color)
         {
             Piece king = GetKing(color);
 

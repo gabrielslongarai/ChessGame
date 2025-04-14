@@ -22,6 +22,7 @@ namespace ChessGame.Application
                 Console.WriteLine();
             }
             Console.WriteLine("  a b c d e f g h");
+            ShowColorInCheck(chessMatch);
             ShowTurn(chessMatch.TurnCount);
             ShowCurrentColor(chessMatch.CurrentColor);
             ShowCapturedPieces(chessMatch);
@@ -41,9 +42,21 @@ namespace ChessGame.Application
                 Console.WriteLine();
             }
             Console.WriteLine("  a b c d e f g h");
+            ShowColorInCheck(chessMatch);
             ShowTurn(chessMatch.TurnCount);
             ShowCurrentColor(chessMatch.CurrentColor);
             ShowCapturedPieces(chessMatch);
+        }
+
+        private static void ShowColorInCheck(ChessMatch chessMatch)
+        {
+            if (chessMatch.IsInCheck(chessMatch.CurrentColor))
+            {
+                Console.ForegroundColor = GetConsoleColor(chessMatch.CurrentColor);
+                Console.Write($"\n{ chessMatch.CurrentColor}");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine($" is in check!");
+            }
         }
 
         private static void ShowTurn(int turn)
@@ -97,6 +110,7 @@ namespace ChessGame.Application
                 Console.ForegroundColor = ConsoleColor.White;
             }
         }
+
         private static void RenderPiece(Piece piece, int i, int x, bool isPossibleMove)
         {
             if (piece == null)
