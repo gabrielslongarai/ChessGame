@@ -158,7 +158,12 @@ namespace ChessGame.Roles
                 Check = false;
             }
 
-                TurnCount++;
+            ChangeTurn();
+        }
+
+        private void ChangeTurn()
+        {
+            TurnCount++;
             CurrentColor = (CurrentColor == EColor.Green) ? EColor.Red : EColor.Green;
         }
 
