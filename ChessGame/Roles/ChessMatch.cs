@@ -107,7 +107,7 @@ namespace ChessGame.Roles
             }
         }
 
-        private Piece? MakeMovement(Position origin, Position destination)
+        private Piece? Move(Position origin, Position destination)
         {
             ValidateOriginPosition(origin);
             ValidateMove(origin, destination);
@@ -121,6 +121,18 @@ namespace ChessGame.Roles
             piece.IncreaseMoveCount();
 
             return capturedPiece;
+        }
+
+        private Piece? CapturePiece(Position position)
+        {
+            if (GameBoard.HasPiece(position) && GameBoard.GetPiece(position).Color != CurrentColor)
+            {
+                Piece capturedPiece = GameBoard.RemovePiece(position);
+                CapturedPieces.Add(capturedPiece);
+                return capturedPiece;
+            }
+
+            return null;
         }
 
         private void UndoMove(Position origin, Position destination, Piece capturedPiece)
@@ -139,7 +151,7 @@ namespace ChessGame.Roles
 
         public void PerformPlay(Position origin, Position destination)
         {
-            Piece? capturedPiece = MakeMovement(origin, destination);
+            Piece? capturedPiece = Move(origin, destination);
 
             Piece piece = GameBoard.GetPiece(destination);
 
@@ -165,18 +177,6 @@ namespace ChessGame.Roles
         {
             TurnCount++;
             CurrentColor = (CurrentColor == EColor.Green) ? EColor.Red : EColor.Green;
-        }
-
-        private Piece? CapturePiece(Position position)
-        {
-            if (GameBoard.HasPiece(position) && GameBoard.GetPiece(position).Color != CurrentColor)
-            {
-                Piece capturedPiece = GameBoard.RemovePiece(position);
-                CapturedPieces.Add(capturedPiece);
-                return capturedPiece;
-            }
-
-            return null;
         }
 
         private HashSet<Piece> GetCapturedPieces(EColor color)
