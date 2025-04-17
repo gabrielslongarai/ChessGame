@@ -251,14 +251,14 @@ namespace ChessGame.Roles
             {
                 bool[,] possibleMoves = piece.PossibleMoves();
 
-                for (int x = 0; x < GameBoard.Lines; x++)
+                for (int line = 0; line < GameBoard.Lines; line++)
                 {
-                    for (int y = 0; y < GameBoard.Columns; y++)
+                    for (int column = 0; column < GameBoard.Columns; column++)
                     {
-                        if (possibleMoves[x, y] == true)
+                        if (possibleMoves[line, column] == true)
                         {
                             Position origin = piece.Position;
-                            Position destination = new(x, y);
+                            Position destination = new(line, column);
                             Piece capturedPiece = Move(origin, destination);
                             bool isInCheck = IsInCheck(color);
                             UndoMove(origin, destination, capturedPiece);
