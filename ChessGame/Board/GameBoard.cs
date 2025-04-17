@@ -17,7 +17,7 @@ namespace ChessGame.Board
 
         public void AddPiece(Piece piece, Position position)
         {
-            if(HasPiece(position))
+            if (HasPiece(position))
             {
                 throw new BoardExceptions("\nThere is already a piece in this position!");
             }

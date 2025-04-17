@@ -18,11 +18,8 @@ namespace ChessGame.Application
                     Position origin = ConsoleLog.ReadChessNotation().ToPosition();
                     Console.WriteLine();
 
-                    chessMatch.ValidateOriginPosition(origin);
-                    bool[,] possibleMoves = chessMatch.GameBoard.GetPiece(origin).PossibleMoves();
-
                     Console.Clear();
-                    ConsoleLog.RenderBoard(chessMatch, possibleMoves);
+                    ConsoleLog.RenderBoard(chessMatch, chessMatch.GetPossibleMoves(origin));
 
                     Console.Write("\n\nDestination: ");
                     Position destination = ConsoleLog.ReadChessNotation().ToPosition();
@@ -31,6 +28,8 @@ namespace ChessGame.Application
                 }
                 catch (BoardExceptions e)
                 {
+                    Console.Clear();
+                    ConsoleLog.RenderBoard(chessMatch);
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"\n{e.Message}");
                     Console.ForegroundColor = ConsoleColor.White;
@@ -40,6 +39,9 @@ namespace ChessGame.Application
                     continue;
                 }
             }
+            ConsoleLog.RenderBoard(chessMatch);
+            Console.WriteLine("\n");
+            Console.WriteLine(">>>FIM DE JOGO<<<");
         }
     }
 }
