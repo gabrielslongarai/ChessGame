@@ -90,6 +90,54 @@ namespace ChessGame.Roles
             return possibleMoves;
         }
 
+        private bool ValidateRookForCastling(Position position)
+        {
+            Piece piece = GameBoard.GetPiece(position);
+
+            return piece != null
+                && piece is Rook
+                && piece.Color == CurrentColor
+                && piece.MoveCount == 0;
+        }
+        private void Castling()
+        {
+            Piece king = GetKing(CurrentColor);
+
+            if (king.MoveCount == 0 && IsInCheck(king.Color) == false)
+            {
+                //Kingside castling
+                Position kingsideRookPosition = new Position(king.Position.Line, king.Position.Column + 3);
+
+                if (ValidateRookForCastling(kingsideRookPosition))
+                {
+                    Position kingPlusOne = new(king.Position.Line, king.Position.Column + 1);
+                    Position kingPlusTwo = new(king.Position.Line, king.Position.Column + 2);
+
+                    if (GameBoard.GetPiece(kingPlusOne) == null && GameBoard.GetPiece(kingPlusTwo) == null)
+                    {
+                        bool[,] possibleMoves = king.PossibleMoves();
+                        possibleMoves[king.Position.Line, king.Position.Column + 2] = true;
+                    }
+                }
+
+                //Queenside castling
+                Position queensideRookPosition = new Position(king.Position.Line, king.Position.Column - 4);
+
+                if (ValidateRookForCastling(kingsideRookPosition))
+                {
+                    Position kingMinusOne = new(king.Position.Line, king.Position.Column - 1);
+                    Position kingMinusTwo = new(king.Position.Line, king.Position.Column - 2);
+                    Position kingMinusThree = new(king.Position.Line, king.Position.Column - 3);
+
+                    if (GameBoard.GetPiece(kingMinusOne) == null && GameBoard.GetPiece(kingMinusTwo) == null && GameBoard.GetPiece(kingMinusThree) == null)
+                    {
+                        bool[,] possibleMoves = king.PossibleMoves();
+                        possibleMoves[king.Position.Line, king.Position.Column - 2] = true;
+                    }
+                }
+            }
+        }
+
         private void ValidateMove(Position origin, Position destination)
         {
             if (!GameBoard.IsValidPosition(origin))
