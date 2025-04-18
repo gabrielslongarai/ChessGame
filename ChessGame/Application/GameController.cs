@@ -40,8 +40,7 @@ namespace ChessGame.Application
                 }
             }
             ConsoleLog.RenderBoard(chessMatch);
-            Console.WriteLine("\n");
-            Console.WriteLine(">>>FIM DE JOGO<<<");
+            Console.WriteLine("\n>>>CHECKMATE!<<<");
         }
     }
 }

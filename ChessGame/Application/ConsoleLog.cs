@@ -22,10 +22,19 @@ namespace ChessGame.Application
                 Console.WriteLine();
             }
             Console.WriteLine("  a b c d e f g h");
-            ShowColorInCheck(chessMatch);
-            ShowTurn(chessMatch.TurnCount);
-            ShowCurrentColor(chessMatch.CurrentColor);
-            ShowCapturedPieces(chessMatch);
+
+            if (chessMatch.Finished == true)
+            {
+                ShowCheckMate(chessMatch);
+                return;
+            }
+            else
+            {
+                ShowColorInCheck(chessMatch);
+                ShowTurn(chessMatch.TurnCount);
+                ShowCurrentColor(chessMatch.CurrentColor);
+                ShowCapturedPieces(chessMatch);
+            }
         }
 
         public static void RenderBoard(ChessMatch chessMatch)
@@ -42,18 +51,33 @@ namespace ChessGame.Application
                 Console.WriteLine();
             }
             Console.WriteLine("  a b c d e f g h");
-            ShowColorInCheck(chessMatch);
-            ShowTurn(chessMatch.TurnCount);
-            ShowCurrentColor(chessMatch.CurrentColor);
-            ShowCapturedPieces(chessMatch);
+
+            if (chessMatch.Finished == true)
+            {
+                ShowCheckMate(chessMatch);
+                return;
+            }
+            else
+            {
+                ShowColorInCheck(chessMatch);
+                ShowTurn(chessMatch.TurnCount);
+                ShowCurrentColor(chessMatch.CurrentColor);
+                ShowCapturedPieces(chessMatch);
+            }
         }
 
+        private static void ShowCheckMate(ChessMatch chessMatch)
+        {
+            Console.ForegroundColor = GetConsoleColor(chessMatch.CurrentColor);
+            Console.WriteLine($"\n\n>>>{chessMatch.CurrentColor} win!<<<");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
         private static void ShowColorInCheck(ChessMatch chessMatch)
         {
             if (chessMatch.IsInCheck(chessMatch.CurrentColor))
             {
                 Console.ForegroundColor = GetConsoleColor(chessMatch.CurrentColor);
-                Console.Write($"\n{ chessMatch.CurrentColor}");
+                Console.Write($"\n{chessMatch.CurrentColor}");
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine($" is in check!");
             }
