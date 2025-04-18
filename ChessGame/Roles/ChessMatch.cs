@@ -41,12 +41,11 @@ namespace ChessGame.Roles
 
         private void SetupPieces()
         {
-            /*
             SetupNewPiece('a', 1, new Rook(EColor.Green, GameBoard));
             SetupNewPiece('b', 1, new Knight(EColor.Green, GameBoard));
             SetupNewPiece('c', 1, new Bishop(EColor.Green, GameBoard));
-            SetupNewPiece('d', 1, new King(EColor.Green, GameBoard));
-            SetupNewPiece('e', 1, new Queen(EColor.Green, GameBoard));
+            SetupNewPiece('d', 1, new Queen(EColor.Green, GameBoard));
+            SetupNewPiece('e', 1, new King(EColor.Green, GameBoard, this));
             SetupNewPiece('f', 1, new Bishop(EColor.Green, GameBoard));
             SetupNewPiece('g', 1, new Knight(EColor.Green, GameBoard));
             SetupNewPiece('h', 1, new Rook(EColor.Green, GameBoard));
@@ -58,8 +57,8 @@ namespace ChessGame.Roles
             SetupNewPiece('a', 8, new Rook(EColor.Red, GameBoard));
             SetupNewPiece('b', 8, new Knight(EColor.Red, GameBoard));
             SetupNewPiece('c', 8, new Bishop(EColor.Red, GameBoard));
-            SetupNewPiece('d', 8, new King(EColor.Red, GameBoard));
-            SetupNewPiece('e', 8, new Queen(EColor.Red, GameBoard));
+            SetupNewPiece('d', 8, new Queen(EColor.Red, GameBoard));
+            SetupNewPiece('e', 8, new King(EColor.Red, GameBoard, this));
             SetupNewPiece('f', 8, new Bishop(EColor.Red, GameBoard));
             SetupNewPiece('g', 8, new Knight(EColor.Red, GameBoard));
             SetupNewPiece('h', 8, new Rook(EColor.Red, GameBoard));
@@ -67,16 +66,6 @@ namespace ChessGame.Roles
             {
               SetupNewPiece((char)('a' + i), 7, new Pawn(EColor.Red, GameBoard));
             }
-            */
-            SetupNewPiece('d', 1, new King(EColor.Green, GameBoard));
-            SetupNewPiece('c', 1, new Rook(EColor.Green, GameBoard));
-            SetupNewPiece('h', 7, new Rook(EColor.Green, GameBoard));
-
-            SetupNewPiece('b', 8, new Rook(EColor.Red, GameBoard));
-            SetupNewPiece('h', 8, new Rook(EColor.Red, GameBoard));
-            SetupNewPiece('a', 8, new King(EColor.Red, GameBoard));
-
-
         }
 
         public bool[,] GetPossibleMoves(Position origin)
@@ -88,54 +77,6 @@ namespace ChessGame.Roles
 
             bool[,] possibleMoves = GameBoard.GetPiece(origin).PossibleMoves();
             return possibleMoves;
-        }
-
-        private bool ValidateRookForCastling(Position position)
-        {
-            Piece piece = GameBoard.GetPiece(position);
-
-            return piece != null
-                && piece is Rook
-                && piece.Color == CurrentColor
-                && piece.MoveCount == 0;
-        }
-        private void Castling()
-        {
-            Piece king = GetKing(CurrentColor);
-
-            if (king.MoveCount == 0 && IsInCheck(king.Color) == false)
-            {
-                //Kingside castling
-                Position kingsideRookPosition = new Position(king.Position.Line, king.Position.Column + 3);
-
-                if (ValidateRookForCastling(kingsideRookPosition))
-                {
-                    Position kingPlusOne = new(king.Position.Line, king.Position.Column + 1);
-                    Position kingPlusTwo = new(king.Position.Line, king.Position.Column + 2);
-
-                    if (GameBoard.GetPiece(kingPlusOne) == null && GameBoard.GetPiece(kingPlusTwo) == null)
-                    {
-                        bool[,] possibleMoves = king.PossibleMoves();
-                        possibleMoves[king.Position.Line, king.Position.Column + 2] = true;
-                    }
-                }
-
-                //Queenside castling
-                Position queensideRookPosition = new Position(king.Position.Line, king.Position.Column - 4);
-
-                if (ValidateRookForCastling(kingsideRookPosition))
-                {
-                    Position kingMinusOne = new(king.Position.Line, king.Position.Column - 1);
-                    Position kingMinusTwo = new(king.Position.Line, king.Position.Column - 2);
-                    Position kingMinusThree = new(king.Position.Line, king.Position.Column - 3);
-
-                    if (GameBoard.GetPiece(kingMinusOne) == null && GameBoard.GetPiece(kingMinusTwo) == null && GameBoard.GetPiece(kingMinusThree) == null)
-                    {
-                        bool[,] possibleMoves = king.PossibleMoves();
-                        possibleMoves[king.Position.Line, king.Position.Column - 2] = true;
-                    }
-                }
-            }
         }
 
         private void ValidateMove(Position origin, Position destination)
@@ -168,10 +109,10 @@ namespace ChessGame.Roles
             {
                 throw new BoardExceptions("\nYou cannot capture your own piece!");
             }
-            //if (!GameBoard.GetPiece(origin).PossibleMoves()[destination.Line, destination.Column])
-            //{
-            //  throw new BoardExceptions("\nInvalid move for this piece!");
-            //}
+            if (!GameBoard.GetPiece(origin).PossibleMoves()[destination.Line, destination.Column])
+            {
+                throw new BoardExceptions("\nInvalid move for this piece!");
+            }
         }
 
         private Piece? Move(Position origin, Position destination)
@@ -183,6 +124,26 @@ namespace ChessGame.Roles
             GameBoard.RemovePiece(origin);
             GameBoard.AddPiece(piece, destination);
             piece.IncreaseMoveCount();
+
+            //Kingside castling
+            if (piece is King && destination.Column == origin.Column + 2)
+            {
+                Position rookOrigin = new(origin.Line, origin.Column + 3);
+                Position rookDestination = new(origin.Line, origin.Column + 1);
+                Piece rook = GameBoard.RemovePiece(rookOrigin);
+                rook.IncreaseMoveCount();
+                GameBoard.AddPiece(rook, rookDestination);
+            }
+
+            //Queenside castling
+            if (piece is King && destination.Column == origin.Column - 2)
+            {
+                Position rookOrigin = new(origin.Line, origin.Column - 4);
+                Position rookDestination = new(origin.Line, origin.Column - 1);
+                Piece rook = GameBoard.RemovePiece(rookOrigin);
+                rook.IncreaseMoveCount();
+                GameBoard.AddPiece(rook, rookDestination);
+            }
 
             return capturedPiece;
         }
@@ -211,6 +172,25 @@ namespace ChessGame.Roles
             }
 
             GameBoard.AddPiece(piece, origin);
+
+            //Kingside castling
+            if (piece is King && destination.Column == origin.Column + 2)
+            {
+                Position rookOrigin = new(origin.Line, origin.Column + 3);
+                Position rookDestination = new(origin.Line, origin.Column + 1);
+                Piece rook = GameBoard.RemovePiece(rookDestination);
+                rook.DecreaseMoveCount();
+                GameBoard.AddPiece(rook, rookOrigin);
+            }
+            //Queenside castling
+            if (piece is King && destination.Column == origin.Column - 2)
+            {
+                Position rookOrigin = new(origin.Line, origin.Column - 4);
+                Position rookDestination = new(origin.Line, origin.Column - 1);
+                Piece rook = GameBoard.RemovePiece(rookDestination);
+                rook.IncreaseMoveCount();
+                GameBoard.AddPiece(rook, rookOrigin);
+            }
         }
 
         public void PerformPlay(Position origin, Position destination)
