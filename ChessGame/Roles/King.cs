@@ -3,8 +3,15 @@ using ChessGame.Board.Enums;
 
 namespace ChessGame.Roles
 {
-    internal class King(EColor color, GameBoard board, ChessMatch chessMatch) : Piece(color, board)
+    internal class King : Piece
     {
+        public ChessMatch ChessMatch { get; private set; }
+
+        public King(EColor color, GameBoard board, ChessMatch chessMatch) : base(color, board)
+        {
+            ChessMatch = chessMatch;
+        }
+
         public override string ToString()
         {
             return "♚";
@@ -12,11 +19,11 @@ namespace ChessGame.Roles
 
         private bool ValidateRookForCastling(Position position)
         {
-            Piece piece = board.GetPiece(position);
+            Piece piece = Board.GetPiece(position);
 
             return piece != null
                 && piece is Rook
-                && piece.Color == color
+                && piece.Color == Color
                 && piece.MoveCount == 0;
         }
 
@@ -83,7 +90,7 @@ namespace ChessGame.Roles
             }
 
 
-            if (MoveCount == 0 && chessMatch.Check == false)
+            if (MoveCount == 0 && ChessMatch.Check == false)
             {
                 //Kingside castling
                 Position kingsideRookPosition = new Position(Position.Line, Position.Column + 3);
@@ -93,7 +100,7 @@ namespace ChessGame.Roles
                     Position kingPlusOne = new(Position.Line, Position.Column + 1);
                     Position kingPlusTwo = new(Position.Line, Position.Column + 2);
 
-                    if (board.GetPiece(kingPlusOne) == null && board.GetPiece(kingPlusTwo) == null)
+                    if (Board.GetPiece(kingPlusOne) == null && Board.GetPiece(kingPlusTwo) == null)
                     {
                         possibleMoves[Position.Line, Position.Column + 2] = true;
                     }
@@ -108,7 +115,7 @@ namespace ChessGame.Roles
                     Position kingMinusTwo = new(Position.Line, Position.Column - 2);
                     Position kingMinusThree = new(Position.Line, Position.Column - 3);
 
-                    if (board.GetPiece(kingMinusOne) == null && board.GetPiece(kingMinusTwo) == null && board.GetPiece(kingMinusThree) == null)
+                    if (Board.GetPiece(kingMinusOne) == null && Board.GetPiece(kingMinusTwo) == null && Board.GetPiece(kingMinusThree) == null)
                     {
                         possibleMoves[Position.Line, Position.Column - 2] = true; 
                     }
