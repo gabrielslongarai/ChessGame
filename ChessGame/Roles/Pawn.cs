@@ -4,11 +4,24 @@ using ChessGame.Board.Enums;
 
 namespace ChessGame.Roles
 {
-    internal class Pawn(EColor color, GameBoard board) : Piece(color, board)
+    internal class Pawn : Piece
     {
+        public ChessMatch ChessMatch { get; private set; }
+
+        public Pawn(EColor color, GameBoard board, ChessMatch chessMatch) : base(color, board)
+        {
+            ChessMatch = chessMatch;
+        }
+
         public override string ToString()
         {
             return "♙";
+        }
+
+        private bool ExistsEnemy(Position positin)
+        {
+            Piece piece = Board.GetPiece(positin);
+            return piece != null && piece.Color != this.Color;
         }
 
         public override bool[,] PossibleMoves()
@@ -48,6 +61,41 @@ namespace ChessGame.Roles
             if (Board.IsValidPosition(position) && Board.HasPiece(position) && Board.GetPiece(position).Color != this.Color)
             {
                 possibleMoves[position.Line, position.Column] = true;
+            }
+
+            //EnPassant
+            if (Color == EColor.Green && Position.Line == 3)
+            {
+                Position left = new(Position.Line, Position.Column - 1);
+
+                if (Board.IsValidPosition(left) && ExistsEnemy(left) && Board.GetPiece(left) == ChessMatch.CanTakeEnPassant)
+                {
+                    possibleMoves[left.Line - 1, left.Column] = true;
+                }
+
+                Position right = new(Position.Line, Position.Column + 1);
+
+                if (Board.IsValidPosition(right) && ExistsEnemy(right) && Board.GetPiece(right) == ChessMatch.CanTakeEnPassant)
+                {
+                    possibleMoves[right.Line - 1, right.Column] = true;
+                }
+            }
+
+            if (Color == EColor.Red && Position.Line == 4)
+            {
+                Position left = new(Position.Line, Position.Column - 1);
+
+                if (Board.IsValidPosition(left) && ExistsEnemy(left) && Board.GetPiece(left) == ChessMatch.CanTakeEnPassant)
+                {
+                    possibleMoves[left.Line + 1, left.Column] = true;
+                }
+
+                Position right = new(Position.Line, Position.Column + 1);
+
+                if (Board.IsValidPosition(right) && ExistsEnemy(right) && Board.GetPiece(right) == ChessMatch.CanTakeEnPassant)
+                {
+                    possibleMoves[right.Line + 1, right.Column] = true;
+                }
             }
 
             return possibleMoves;

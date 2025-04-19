@@ -18,6 +18,7 @@ namespace ChessGame.Roles
         public HashSet<Piece> PiecesOnBoard { get; private set; }
         public HashSet<Piece> CapturedPieces { get; private set; }
         public bool Check { get; private set; }
+        public Piece? CanTakeEnPassant { get; private set; }
 
 
         public ChessMatch()
@@ -28,6 +29,7 @@ namespace ChessGame.Roles
             CurrentColor = EColor.Green;
             Finished = false;
             Check = false;
+            CanTakeEnPassant = null;
             PiecesOnBoard = new HashSet<Piece>();
             CapturedPieces = new HashSet<Piece>();
             SetupPieces();
@@ -51,7 +53,7 @@ namespace ChessGame.Roles
             SetupNewPiece('h', 1, new Rook(EColor.Green, GameBoard));
             for (int i = 0; i < 8; i++)
             {
-               SetupNewPiece((char)('a' + i), 2, new Pawn(EColor.Green, GameBoard));
+                SetupNewPiece((char)('a' + i), 2, new Pawn(EColor.Green, GameBoard, this));
             }
 
             SetupNewPiece('a', 8, new Rook(EColor.Red, GameBoard));
@@ -64,7 +66,7 @@ namespace ChessGame.Roles
             SetupNewPiece('h', 8, new Rook(EColor.Red, GameBoard));
             for (int i = 0; i < 8; i++)
             {
-              SetupNewPiece((char)('a' + i), 7, new Pawn(EColor.Red, GameBoard));
+                SetupNewPiece((char)('a' + i), 7, new Pawn(EColor.Red, GameBoard, this));
             }
         }
 
@@ -145,6 +147,26 @@ namespace ChessGame.Roles
                 GameBoard.AddPiece(rook, rookDestination);
             }
 
+            //EnPassant
+            if (piece is Pawn)
+            {
+                if (origin.Column != destination.Column && capturedPiece == null)
+                {
+                    Position enemyPawn;
+
+                    if (piece.Color == EColor.Green)
+                    {
+                        enemyPawn = new(destination.Line + 1, destination.Column);
+                    }
+                    else
+                    {
+                        enemyPawn = new(destination.Line - 1, destination.Column);
+                    }
+
+                    capturedPiece = CapturePiece(enemyPawn);
+                }
+            }
+
             return capturedPiece;
         }
 
@@ -191,6 +213,27 @@ namespace ChessGame.Roles
                 rook.IncreaseMoveCount();
                 GameBoard.AddPiece(rook, rookOrigin);
             }
+
+            //EnPassant
+            if (piece is Pawn)
+            {
+                if (origin.Column != destination.Column && capturedPiece == CanTakeEnPassant)
+                {
+                    Piece enemyPawn = GameBoard.RemovePiece(destination);
+                    Position enemyPawnPosition;
+
+                    if (piece.Color == EColor.Green)
+                    {
+                        enemyPawnPosition = new(3, destination.Column);
+                    }
+                    else
+                    {
+                        enemyPawnPosition = new(4, destination.Column);
+                    }
+
+                    GameBoard.AddPiece(enemyPawn, enemyPawnPosition);
+                }
+            }
         }
 
         public void PerformPlay(Position origin, Position destination)
@@ -199,17 +242,15 @@ namespace ChessGame.Roles
 
             Piece? capturedPiece = Move(origin, destination);
 
-            Piece piece = GameBoard.GetPiece(destination);
-
-            if (IsInCheck(piece.Color))
+            if (IsInCheck(CurrentColor))
             {
                 UndoMove(origin, destination, capturedPiece);
                 throw new BoardExceptions("\nYou cannot put yourself in check!");
             }
 
-            Check = IsInCheck(GetOpponentColor(piece.Color));
+            Check = IsInCheck(GetOpponentColor(CurrentColor));
 
-            if (IsCheckMate(GetOpponentColor(piece.Color)))
+            if (IsCheckMate(GetOpponentColor(CurrentColor)))
             {
                 Finished = true;
             }
@@ -218,6 +259,17 @@ namespace ChessGame.Roles
                 ChangeTurn();
             }
 
+            //EnPassant
+            Piece piece = GameBoard.GetPiece(destination);
+
+            if (piece is Pawn && (destination.Line == origin.Line - 2 || destination.Line == origin.Line + 2))
+            {
+                CanTakeEnPassant = piece;
+            }
+            else
+            {
+                CanTakeEnPassant = null;
+            }
         }
 
         private void ChangeTurn()
