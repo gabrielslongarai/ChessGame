@@ -248,6 +248,23 @@ namespace ChessGame.Roles
                 throw new BoardExceptions("\nYou cannot put yourself in check!");
             }
 
+            //Promotion
+            Piece piece = GameBoard.GetPiece(destination);
+
+            if (piece is Pawn)
+            {
+                if ((piece.Color == EColor.Green && destination.Line == 0) || (piece.Color == EColor.Red && destination.Line == 7))
+                {
+                    piece = GameBoard.RemovePiece(destination);
+                    PiecesOnBoard.Remove(piece);
+
+                    Queen queen = new(piece.Color, GameBoard);
+                    GameBoard.AddPiece(queen, destination);
+                    PiecesOnBoard.Add(queen);
+
+                }
+            }
+
             Check = IsInCheck(GetOpponentColor(CurrentColor));
 
             if (IsCheckMate(GetOpponentColor(CurrentColor)))
@@ -260,8 +277,6 @@ namespace ChessGame.Roles
             }
 
             //EnPassant
-            Piece piece = GameBoard.GetPiece(destination);
-
             if (piece is Pawn && (destination.Line == origin.Line - 2 || destination.Line == origin.Line + 2))
             {
                 CanTakeEnPassant = piece;
